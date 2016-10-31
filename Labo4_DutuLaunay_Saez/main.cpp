@@ -68,8 +68,15 @@ string multiply(string lhs, string rhs) {
  */
 string factorial(int n) {
   string resultat;
+  char lol = 1;
   
-  // A COMPLETER
+  for (int i = n; i > 0; i--)
+  {
+     lol *= i;
+  }
+  
+  // à remplacer par une boucle qui met chaque caractère dans une string (relou)
+  resultat += to_string(lol);
   
   return resultat;
 }
@@ -87,10 +94,23 @@ string subtract(string lhs, string rhs) {
   unsigned int longueur_lhs = lhs.length(),
                longueur_rhs = rhs.length();
   
-  char lol = lhs[lhs.length()-1];
-  int nb = char2int(lol);
+  char caractere_string1 = lhs[lhs.length()- 1];
+  char caractere_string2 = rhs[rhs.length() - 1];
   
-  cout << nb << endl;
+  int nombre_string1 = char2int(caractere_string1);
+  int nombre_string2 = char2int(caractere_string2);
+  int lol;
+  
+  if(nombre_string1 < nombre_string2)
+  {
+     //piquer une retenue chez le voisin
+     
+  }
+  else
+  {
+     lol = nombre_string1 - nombre_string2;
+  }
+  cout << resultat << endl;
   
   return resultat;
 }
