@@ -110,3 +110,8 @@ int main() {
   return EXIT_SUCCESS;
 }
 
+
+int char2int(char c)
+{
+    return c -'0';
+}
