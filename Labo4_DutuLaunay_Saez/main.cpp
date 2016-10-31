@@ -27,6 +27,13 @@ using namespace std;
  
  @return somme des 2 entiers représentée en notation décimale
  */
+
+int char2int(char c)
+{
+    return c -'0';
+}
+
+
 string add(string lhs, string rhs) {
   string resultat;
   
@@ -77,8 +84,13 @@ string factorial(int n) {
  */
 string subtract(string lhs, string rhs) {
   string resultat;
+  unsigned int longueur_lhs = lhs.length(),
+               longueur_rhs = rhs.length();
   
-  // A COMPLETER
+  char lol = lhs[lhs.length()-1];
+  int nb = char2int(lol);
+  
+  cout << nb << endl;
   
   return resultat;
 }
@@ -108,10 +120,4 @@ int main() {
   cout << "Factoriel(" << i3 << ") = " << factorial(i3) << endl;
   
   return EXIT_SUCCESS;
-}
-
-
-int char2int(char c)
-{
-    return c -'0';
 }
