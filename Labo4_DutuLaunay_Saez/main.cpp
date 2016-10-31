@@ -68,7 +68,7 @@ string multiply(string lhs, string rhs) {
  */
 string factorial(int n) {
   string resultat;
-  char lol = 1;
+  int lol = 1;
   
   for (int i = n; i > 0; i--)
   {
