@@ -46,31 +46,34 @@ string add(string chiffre1, string chiffre2)
     char char_chiffre1;
     char char_chiffre2;
     
+    int int_chiffre1;
+    int int_chiffre2;
+    
     for (j1 = longueur_chiffre1 ; j1 > 0 ; j1--)
     {
         //affectation a char_chiffre1 et 2 la longueur de la chaine de chiffre1 et 2
-        char_chiffre1 = chiffre1[j1];
-        int int_chiffre1 = char2int(char_chiffre1);
+        char_chiffre1 = chiffre1[j1 - 1];
+        int_chiffre1 = char2int(char_chiffre1);
         
-        char_chiffre2 = chiffre1[j2];
-        int int_chiffre2 = char2int(char_chiffre1);
+        char_chiffre2 = chiffre2[j2 - 1];
+        int_chiffre2 = char2int(char_chiffre2);
         
         // addition du dernier chiffre des 2 chaines
         int resultat_addition = int_chiffre1 + int_chiffre2;
-    
+        
         if (resultat_addition > 9)
         {
-//            if (chiffre1[j1 - 1] != 0)
-//            {
                 int_chiffre1 = int_chiffre1 + 1;
-//            }
         }
+        
         // affichage du resultat
         cout << resultat_addition;
+        resultat_addition = 0;
     }
   
     return resultat;
 }
+
 
 
 /**
@@ -106,7 +109,7 @@ string factorial(int n) {
   }
   
   // à remplacer par une boucle qui met chaque caractère dans une string (relou)
-  resultat += to_string(lol);
+//  resultat += to_string(lol);
   
   return resultat;
 }
@@ -119,7 +122,8 @@ string factorial(int n) {
  
  @return différence (lhs - rhs) des 2 entiers représentée en notation décimale
  */
-string subtract(string lhs, string rhs) {
+string subtract(string lhs, string rhs) 
+{
   string resultat;
   unsigned int longueur_lhs = lhs.length(),
                longueur_rhs = rhs.length();
