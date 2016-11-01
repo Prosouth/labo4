@@ -33,13 +33,43 @@ int char2int(char c)
     return c -'0';
 }
 
-
-string add(string lhs, string rhs) {
-  string resultat;
+string add(string chiffre1, string chiffre2) 
+{
+    string resultat;
+    
+    int longueur_chiffre1 = chiffre1.length();
+    int longueur_chiffre2 = chiffre2.length();
+    
+    int j1 = longueur_chiffre1;
+    int j2 = longueur_chiffre2;
+    
+    char char_chiffre1;
+    char char_chiffre2;
+    
+    for (j1 = longueur_chiffre1 ; j1 > 0 ; j1--)
+    {
+        //affectation a char_chiffre1 et 2 la longueur de la chaine de chiffre1 et 2
+        char_chiffre1 = chiffre1[j1];
+        int int_chiffre1 = char2int(char_chiffre1);
+        
+        char_chiffre2 = chiffre1[j2];
+        int int_chiffre2 = char2int(char_chiffre1);
+        
+        // addition du dernier chiffre des 2 chaines
+        int resultat_addition = int_chiffre1 + int_chiffre2;
+    
+        if (resultat_addition > 9)
+        {
+//            if (chiffre1[j1 - 1] != 0)
+//            {
+                int_chiffre1 = int_chiffre1 + 1;
+//            }
+        }
+        // affichage du resultat
+        cout << resultat_addition;
+    }
   
-  // A COMPLETER
-  
-  return resultat;
+    return resultat;
 }
 
 
@@ -94,7 +124,6 @@ string subtract(string lhs, string rhs) {
   
   return resultat;
 }
-
 
 /**
  Fonction principale
