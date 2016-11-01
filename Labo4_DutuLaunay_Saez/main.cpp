@@ -33,6 +33,12 @@ int char2int(char c)
     return c -'0';
 }
 
+int int2char(char c)
+{
+    return c +'0';
+}
+
+
 
 string add(string lhs, string rhs) {
   string resultat;
@@ -91,26 +97,26 @@ string factorial(int n) {
  */
 string subtract(string lhs, string rhs) {
   string resultat;
-  unsigned int longueur_lhs = lhs.length(),
-               longueur_rhs = rhs.length();
+  int longueur_lhs = lhs.length();
+  int longueur_rhs = rhs.length();
+  int car1;
+  int car2;
   
-  char caractere_string1 = lhs[lhs.length()- 1];
-  char caractere_string2 = rhs[rhs.length() - 1];
+  int resultat_intermediaire;
   
-  int nombre_string1 = char2int(caractere_string1);
-  int nombre_string2 = char2int(caractere_string2);
-  int lol;
-  
-  if(nombre_string1 < nombre_string2)
+  for(int indice = lhs.length(); indice >= 0; indice--)
   {
-     //piquer une retenue chez le voisin
-     
+       car1 = char2int(lhs[indice]);
+       car2 = char2int(rhs[indice]);
+       
+       resultat_intermediaire = car1 - car2;
+       
+       cout << resultat_intermediaire << endl;
+       resultat += int2char(resultat_intermediaire);
+       car1 = car2 = resultat_intermediaire = 0;
+       
   }
-  else
-  {
-     lol = nombre_string1 - nombre_string2;
-  }
-  cout << resultat << endl;
+  
   
   return resultat;
 }
