@@ -44,7 +44,7 @@ int int2char(char c)
 string add(string chiffre1, string chiffre2) 
 {
     string resultat;
-    
+   /* 
     int longueur_chiffre1 = chiffre1.length();
     int longueur_chiffre2 = chiffre2.length();
     
@@ -76,7 +76,7 @@ string add(string chiffre1, string chiffre2)
         // affichage du resultat
         cout << resultat_addition;
     }
-  
+  */
     return resultat;
 }
 
@@ -129,26 +129,54 @@ string factorial(int n) {
  */
 string subtract(string lhs, string rhs) {
   string resultat;
-  int longueur_lhs = lhs.length();
-  int longueur_rhs = rhs.length();
+
   int car1;
   int car2;
+  string operande1;
+  string operande2;
+  bool operandes_inversees = false;
+  int longueur_lhs = lhs.length();
+  int longueur_rhs = rhs.length();
+  unsigned int nb_car_op_plus_court;
+  unsigned int diff_longeur;
+  
+  // si la première opérande est plus petite que la seconde, on inverse l'ordre de la
+  // soustraction afin de multiplier plus tard le résultat par * (-1)
+  if(lhs < rhs)
+  {
+     operande1 = rhs;
+     operande2 = lhs;
+     //operandes_inversees = true;     
+  }
+  else
+  {
+     operande1 = lhs;
+     operande2 = rhs;
+  }
+  
+  if(operande1.length() > operande2.length())
+  {
+     nb_car_op_plus_court = operande2.length();
+     diff_longeur = operande1.length() - operande2.length();// on va l'utiliser dans une boucle for pour rajouter les derniers caractères
+  }
+  else
+  {
+     nb_car_op_plus_court = operande1.length();
+     diff_longeur = operande2.length() - operande1.length();
+  }
   
   int resultat_intermediaire;
-  
-  for(int indice = lhs.length(); indice >= 0; indice--)
+  for(int indice = nb_car_op_plus_court; indice > 0; indice--)
   {
-       car1 = char2int(lhs[indice]);
-       car2 = char2int(rhs[indice]);
+       car1 = char2int(operande1[indice]);
+       car2 = char2int(operande2[indice]);
        
        resultat_intermediaire = car1 - car2;
        
-       cout << resultat_intermediaire << endl;
-       resultat += int2char(resultat_intermediaire);
-       car1 = car2 = resultat_intermediaire = 0;
-       
+       //cout << resultat_intermediaire << endl;
+       resultat[indice] = int2char(resultat_intermediaire);
+       car1 = car2 = resultat_intermediaire = 0;       
   }
-  
   
   return resultat;
 }
