@@ -33,56 +33,105 @@ int char2int(char c)
     return c -'0';
 }
 
-
 int int2char(char c)
 {
     return c +'0';
 }
 
-
-
 string add(string chiffre1, string chiffre2) 
 {
     string resultat;
+    string ajout_zero = "0";
+    string chiffre_long;
     
     int longueur_chiffre1 = chiffre1.length();
     int longueur_chiffre2 = chiffre2.length();
+    int lg_chiffre_long;
     
-    int j1 = longueur_chiffre1;
-    int j2 = longueur_chiffre2;
+    if (longueur_chiffre1 > longueur_chiffre2)
+    {
+        lg_chiffre_long = longueur_chiffre1;
+        chiffre1 = chiffre_long;
+    }
+    else
+    {
+        lg_chiffre_long = longueur_chiffre2;
+        chiffre2 = chiffre_long;
+    }
+    
+    int lg_max = lg_chiffre_long;
+    
+    if (longueur_chiffre1 != longueur_chiffre2)
+    {
+        for (int indice = 0 ; indice < lg_max ; indice ++)
+        {
+            ajout_zero[indice] = chiffre_long[indice];
+        }
+    }
+    
+    cout << ajout_zero << endl;
+    
+    int j1 = lg_max;
+    int j2 = lg_max;
     
     char char_chiffre1;
     char char_chiffre2;
+    char char_chiffre12;
     
     int int_chiffre1;
     int int_chiffre2;
+    int int_chiffre12;
     
-    for (j1 = longueur_chiffre1 ; j1 > 0 ; j1--)
+    const int RETENUE = 1;
+    
+    bool retenue = false;
+    
+    for (j1 = lg_max; j1 > 0 ; j1-- && j2--)
     {
         //affectation a char_chiffre1 et 2 la longueur de la chaine de chiffre1 et 2
         char_chiffre1 = chiffre1[j1 - 1];
-        int_chiffre1 = char2int(char_chiffre1);
+        
+        if (retenue == false)
+        {
+            int_chiffre1 = char2int(char_chiffre1);
+        }
+        else
+        {
+            int_chiffre1 = int_chiffre12;
+            retenue = false;
+        }
         
         char_chiffre2 = chiffre2[j2 - 1];
         int_chiffre2 = char2int(char_chiffre2);
+
+        char_chiffre2 = chiffre2[j2 - 1];
+        int_chiffre2 = char2int(char_chiffre2);
+        
+        char_chiffre12 = chiffre1[j1 - 2];
+        int_chiffre12;
+        int_chiffre12 = char2int(char_chiffre12);
         
         // addition du dernier chiffre des 2 chaines
-        int resultat_addition = int_chiffre1 + int_chiffre2;
+        int resultat_inter = int_chiffre1 + int_chiffre2;
         
-        if (resultat_addition > 9)
+        if (resultat_inter > 9)
         {
-                int_chiffre1 = int_chiffre1 + 1;
+            int_chiffre12 += RETENUE;
+            int_chiffre1 = int_chiffre12;
+            resultat_inter %= 10;
+            retenue = true;   
         }
         
         // affichage du resultat
-        cout << resultat_addition;
-        resultat_addition = 0;
+        cout << resultat_inter;
+        resultat += int2char(resultat_inter);
+        
+        resultat_inter = 0;
+        
     }
   
     return resultat;
 }
-
-
 
 /**
  Multiplication
@@ -92,10 +141,66 @@ string add(string chiffre1, string chiffre2)
  
  @return produit des 2 entiers représenté en notation décimale
  */
-string multiply(string lhs, string rhs) {
-  string resultat;
+string multiply(string chiffre1, string chiffre2) 
+
+{
+    string resultat;
+    
+    int longueur_chiffre1 = chiffre1.length();
+    int longueur_chiffre2 = chiffre2.length();
   
-  // A COMPLETER
+    char char_chiffre1;
+    char char_chiffre2;
+    char char_chiffre12;
+
+    int int_chiffre1;
+    int int_chiffre2;
+    int int_chiffre12;
+    int resultat_inter;
+   
+    int j1 = longueur_chiffre1;
+    int j2 = longueur_chiffre2;
+    
+    bool retenue = false;
+    
+    const int RETENUE = 1;
+    
+    for (int j2 = longueur_chiffre2)
+    
+    for ( j1 = longueur_chiffre1 ; j1 > 0 ; j1--)
+    {
+        if (retenue == false)
+        {
+            int_chiffre1 = char2int(char_chiffre1);
+        }
+        else
+        {
+            int_chiffre1 = int_chiffre12;
+            retenue = false;
+        }
+        
+        char_chiffre1 = chiffre1[j1 - 1];
+        int_chiffre1 = char2int(char_chiffre1);
+        
+        char_chiffre2 = chiffre2[j2 - 1];
+        int_chiffre2 = char2int(char_chiffre1);
+        
+        char_chiffre12 = chiffre1[j1 - 2];
+        int_chiffre12;
+        int_chiffre12 = char2int(char_chiffre12);
+        
+        resultat_inter = int_chiffre1 * int_chiffre2;
+        
+        
+        if (resultat_inter > 9)
+        {
+            int_chiffre12 += RETENUE;
+            int_chiffre1 = int_chiffre12;
+            resultat_inter %= 10;
+            retenue = true;   
+        }
+      
+    }
   
   return resultat;
 }
@@ -116,8 +221,8 @@ string factorial(int n) {
      lol *= i;
   }
   
-  // à remplacer par une boucle qui met chaque caractère dans une string (relou)
-//  resultat += to_string(lol);
+// à remplacer par une boucle qui met chaque caractère dans une string (relou)
+// resultat += to_string(lol);
   
   return resultat;
 }
@@ -152,7 +257,6 @@ string subtract(string lhs, string rhs)
        car1 = car2 = resultat_intermediaire = 0;
        
   }
-  
   
   return resultat;
 }
