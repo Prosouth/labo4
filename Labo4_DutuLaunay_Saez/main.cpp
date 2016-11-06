@@ -1,32 +1,23 @@
 /* ---------------------------
- Laboratoire : 4
+ Laboratoire : 4 - Arithmétique sur entiers longs
  Fichier :     main.cpp
- Auteur(s) :
+ Auteur(s) :   Marion Dutu Launay et Sébastien Saez
  Date :
  
  But :         Mise en oeuvre d'opérations arithmétiques simples
- (+,-,*) sur des entiers positifs longs représentés
- sous forme de chaines de caractères en notation
- décimale
+               (+,-,*) sur des entiers positifs longs représentés
+               sous forme de chaines de caractères en notation
+               décimale
  
- Remarque(s) :
+ Remarque(s) : On part du principe que la saisie utilisateur est correcte.
  
- Compilateur :
+ Compilateur : g++ (GCC) 6.2.1 20160830
  --------------------------- */
 
 #include <cstdlib>
 #include <iostream>
 #include <string>
 using namespace std;
-
-/**
- Addition
- 
- @param lhs entier >=0 représenté en notation décimale
- @param rhs entier >=0 représenté en notation décimale
- 
- @return somme des 2 entiers représentée en notation décimale
- */
 
 int char2int(char c)
 {
@@ -38,6 +29,14 @@ int int2char(char c)
    return c + '0';
 }
 
+/**
+ Addition
+ 
+ @param lhs entier >=0 représenté en notation décimale
+ @param rhs entier >=0 représenté en notation décimale
+ 
+ @return somme des 2 entiers représentée en notation décimale
+ */
 string add(string chiffre1, string chiffre2)
 {
    string resultat;
@@ -52,7 +51,8 @@ string add(string chiffre1, string chiffre2)
    int dif = chiffre1.length() - chiffre2.length();
    for (int i = chiffre1.length() - 1; i >= 0; i--) 
    {
-      int res = (char2int(chiffre1[i]) + retenue) + ((i - dif >= chiffre2.length()) ? 0 : char2int(chiffre2[i-dif]));
+      int res = (char2int(chiffre1[i]) + retenue) + 
+      ((i - dif >= chiffre2.length()) ? 0 : char2int(chiffre2[i-dif]));
       retenue = res / 10;
       temp_res += int2char(res%10);
    }
@@ -84,45 +84,52 @@ string multiply(string chiffre1, string chiffre2)
 {
    string resultat = "0";
    
+   // On compare les deux opérandes pour mettre la plus courte en bas,
+   // de cette manière, on économise des itérations 
    if (chiffre2.length() > chiffre1.length())
    {
       string temp = chiffre1;
       chiffre1 = chiffre2;
       chiffre2 = temp;
    }
-   string res2 = "0";
+   int retenue = 0;
+   string resultat_operande2 = "0";
    for (int i = chiffre2.length() - 1; i >= 0; i--) 
    {
       int chiffre_2 = char2int(chiffre2[i]);
-      int res_inter;
-      int retenue = 0;
       string temp_res;
+      
       for (int j = chiffre1.length() - 1; j >= 0; j--)
       {
          int chiffre_1 = char2int(chiffre1[j]);
          int res = (retenue + chiffre_1) * chiffre_2;
          retenue = res / 10;
-         temp_res += int2char(res%10);
+         temp_res += int2char(res % 10);
       }
+      
       string inter = "";
       inter += temp_res;
-      if (retenue > 0) {
+      if (retenue > 0) 
+      {
          inter += int2char(retenue);
       }
-      for (int k = chiffre2.length() - 1; k > i; k--) 
-      {
-         inter += '0';
-      }
+      
+
+      
       string interfinal;
       for (int m = inter.length() - 1; m >= 0; m--)
       {
          interfinal += inter[m];
       }
-      res2 = add(res2, interfinal);
+      for (int k = chiffre2.length() - 1; k > i; k--) 
+      {
+         interfinal += '0';
+      }
+      resultat_operande2 = add(resultat_operande2, interfinal);
    }
-   resultat = add(resultat, res2);
    
-
+   resultat = add(resultat, resultat_operande2);
+   
    return resultat;
 }
 
@@ -167,8 +174,8 @@ string subtract(string operande1, string operande2)
    int longeur_op2 = operande2.length();
    unsigned int diff_longeur;
 
-   // si la première opérande est plus petite que la seconde, on inverse l'ordre de la
-   // soustraction afin de multiplier plus tard le résultat par * (-1)
+   // si la première opérande est plus petite que la seconde, on inverse l'ordre de 
+   // la soustraction afin de multiplier plus tard le résultat par * (-1)
    if (longeur_op1 < longeur_op2) 
    {
       operandes_inversees = true;
@@ -231,7 +238,7 @@ string subtract(string operande1, string operande2)
 }
 
 /**
- Fonction principale
+12 Fonction principale
  @return Mise en oeuvre d'opérations arithmétiques simples
  (+,-,*) sur des entiers positifs longs représentés
  sous forme de chaines de caractères en notation
@@ -241,17 +248,17 @@ int main()
 {
 
    cout << "Entrez deux entiers >= 0 \n";
-   string i1, i2;
-   cin >> i1 >> i2;
+   string entier1, entier2;
+   cin >> entier1 >> entier2;
 
-   cout << i1 << " + " << i2 << " = " << add(i1, i2) << endl;
-   cout << i1 << " * " << i2 << " = " << multiply(i1, i2) << endl;
-   cout << i1 << " - " << i2 << " = " << subtract(i1, i2) << endl;
+   cout << entier1 << " + " << entier2 << " = " << add(entier1, entier2) << endl;
+   cout << entier1 << " * " << entier2 << " = " << multiply(entier1, entier2) << endl;
+   cout << entier1 << " - " << entier2 << " = " << subtract(entier1, entier2) << endl;
 
    cout << "\nEntrez un entier >= 0 \n";
-   int i3;
-   cin >> i3;
-   cout << "Factoriel(" << i3 << ") = " << factorial(i3) << endl;
+   int entier3;
+   cin >> entier3;
+   cout << "Factoriel(" << entier3 << ") = " << factorial(entier3) << endl;
   
    return EXIT_SUCCESS;
 }
