@@ -1,8 +1,8 @@
 /* ---------------------------
  Laboratoire : 4 - Arithmétique sur entiers longs
- Fichier :     main.cpp
+ Fichier :     Labo4_dutu_saez.cpp
  Auteur(s) :   Marion Dutu Launay et Sébastien Saez
- Date :
+ Date :        6 novembre 2016
  
  But :         Mise en oeuvre d'opérations arithmétiques simples
                (+,-,*) sur des entiers positifs longs représentés
@@ -52,6 +52,7 @@ int int2char(char c)
  */
 string int2string(int nombre)
 {
+   const int BASE10 = 10;
    // Déterminer la longueur de l'entier
     if (nombre == 0)
     {
@@ -63,9 +64,9 @@ string int2string(int nombre)
     
     while (nombre > 0) 
     {
-        temp += int2char(nombre % 10);
+        temp += int2char(nombre % BASE10);
         
-        nombre /= 10;
+        nombre /= BASE10;
     }
     
     for (int i = 0; i < temp.length(); i++) {
@@ -84,9 +85,10 @@ string int2string(int nombre)
  */
 string add(string chiffre1, string chiffre2)
 {
+   const int MODULO_10 = 10; // pour déterminer le reste 
+   int retenue = 0; // on initialise la retenue à 0 pour la première addition
    string resultat, // afin de stocker le resultat final et le renvoyer
           temp_res; // valeur utilisée pour 
-   int retenue = 0; // on initialise la retenue à 0 pour la première addition
    
    // si le chiffre 2 est plus grand que le chiffre 1, on l'inverse
    if (chiffre2.length() > chiffre1.length())
@@ -95,13 +97,13 @@ string add(string chiffre1, string chiffre2)
       chiffre1 = chiffre2;
       chiffre2 = temp;
    }
-   int dif = chiffre1.length() - chiffre2.length(); // on stocke la différence afin de l'utiliser comme index
-   for (int i = chiffre1.length() - 1; i >= 0; i--) 
+   int difference = chiffre1.length() - chiffre2.length(); // on stocke la différence 
+   for (int i = chiffre1.length() - 1; i >= 0; i--)        // afin de l'utiliser comme index
    {
       int res = (char2int(chiffre1[i]) + retenue) + 
-      ((i - dif >= chiffre2.length()) ? 0 : char2int(chiffre2[i-dif]));
+      ((i - difference >= chiffre2.length()) ? 0 : char2int(chiffre2[i-difference]));
       retenue = res / 10;
-      temp_res += int2char(res % 10);
+      temp_res += int2char(res % MODULO_10);
    }
    
    // si la retenue est supérieure à 0, on la stocke dans le résultat temporaire
@@ -109,12 +111,12 @@ string add(string chiffre1, string chiffre2)
    {
       temp_res += int2char(retenue);
    }
-   bool zero = true; // 
+   bool zero = true; // utilisé pour déterminer s'il y a des 0 à traiter
    for (int i = temp_res.length()-1; i >= 0; i--) 
    {
       if (!(zero && temp_res[i] == '0'))
       {
-         resultat += temp_res[i];
+         resultat += temp_res[i]; 
          zero = false;
       }
    }
@@ -173,6 +175,7 @@ string multiply(string chiffre1, string chiffre2)
       {
          inversion_finale += resultat_intermediaire[m];
       }
+      // on doit rajouter un 0 au 2ème opérateur,3 au 3ème, etc...
       for (int k = chiffre2.length() - 1; k > i; k--) 
       {
          inversion_finale += '0';
@@ -181,7 +184,7 @@ string multiply(string chiffre1, string chiffre2)
       retenue = 0; // on remet la retenue à 0
       resultat_operande2 = add(resultat_operande2, inversion_finale);
    }
-   resultat = add(resultat, resultat_operande2);
+   resultat = add(resultat, resultat_operande2); // addition finale
    
    return resultat;
 }
@@ -199,8 +202,8 @@ string subtract(string operande1, string operande2)
 {
    string resultat = "";
 
-   int car1;
-   int car2;
+   int car1; // pour stocker le caractère de l'opérande 1
+   int car2; // pour stocker le caractère de l'opérande 2
    bool operandes_inversees = false;
    int longeur_op1 = operande1.length();
    int longeur_op2 = operande2.length();
@@ -247,21 +250,24 @@ string subtract(string operande1, string operande2)
       resultat += int2char(car1 - car2);  
    }
    
-   int indice_reste = diff_longeur - 1;
-   while (retenue || indice_reste >= 0) 
+   int indice_reste = diff_longeur - 1; 
+   while (retenue || indice_reste >= 0) // tant qu'il y a une retenue OU indice_reste >= 0
    {
       int car_reste = char2int(operande1[indice_reste--]) - (retenue ? 1 : 0);
-      retenue = car_reste < 0;
+      retenue = car_reste < 0; 
       car_reste += retenue ? 10 : 0; 
       resultat += int2char(car_reste);  
    }
    int longeur_resultat = resultat.length();
    bool zero = true;
    string resultat_final;
+   // si les opérandes ont été inversées, on rajouter simplement un - devant :)
    if (operandes_inversees)
    {
       resultat_final += '-';
    }
+   
+   // boucle pour traiter les 0 parasites
    for (int i = longeur_resultat-1; i >= 0; i--) 
    {
       if (!(zero && resultat[i] == '0'))
@@ -270,7 +276,7 @@ string subtract(string operande1, string operande2)
          zero = false;
       }
    }
-   longeur_resultat = resultat_final.length();
+   // si le résultat est vide, on retourne 0 autrement, le résultat calculé
    return resultat_final == "" ? "0" : resultat_final;
 }
 
