@@ -19,6 +19,27 @@
 #include <string>
 using namespace std;
 
+string int2string(int nombre)
+{
+   // Déterminer la longueur de l'entier
+    if (nombre == 0)
+        cout << "0" << endl;
+        
+    string temp = "";
+    string int_converti = "";
+    
+    while (nombre > 0) 
+    {
+        temp += int2char(nombre % 10);
+        
+        nombre /= 10;
+    }
+    
+    for (int i = 0; i < temp.length(); i++) {
+        int_converti += temp[temp.length()-i-1];
+    }
+}
+
 int char2int(char c)
 {
    return c - '0';
@@ -129,7 +150,6 @@ string multiply(string chiffre1, string chiffre2)
       retenue = 0;
       resultat_operande2 = add(resultat_operande2, interfinal);
    }
-   
    resultat = add(resultat, resultat_operande2);
    
    return resultat;
@@ -145,14 +165,28 @@ string multiply(string chiffre1, string chiffre2)
 string factorial(int n)
 {
    string resultat;
-   int lol = 1;
-
-   for (int i = n; i > 0; i--) {
-      lol *= i;
+   string oklm = "";
+   int nombre = n;
+   if(nombre > 9)
+   {
+      // parser++ 
    }
+   else
+   {
+      oklm += int2char(nombre);
+   }
+   
+   
+
+   for(int i = nombre; i > 0; i--)
+   {
+      oklm += multiply(oklm, oklm[0] - 1);
+      
+   }
+   
+
 
    // à remplacer par une boucle qui met chaque caractère dans une string (relou)
-   resultat += to_string(lol);
 
    return resultat;
 }
