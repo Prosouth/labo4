@@ -102,7 +102,7 @@ string multiply(string chiffre1, string chiffre2)
       for (int j = chiffre1.length() - 1; j >= 0; j--)
       {
          int chiffre_1 = char2int(chiffre1[j]);
-         int res = (retenue + chiffre_1) * chiffre_2;
+         int res = retenue + (chiffre_1 * chiffre_2);
          retenue = res / 10;
          temp_res += int2char(res % 10);
       }
@@ -125,6 +125,8 @@ string multiply(string chiffre1, string chiffre2)
       {
          interfinal += '0';
       }
+      
+      retenue = 0;
       resultat_operande2 = add(resultat_operande2, interfinal);
    }
    
