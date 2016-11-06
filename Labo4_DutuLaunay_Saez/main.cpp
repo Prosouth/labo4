@@ -41,87 +41,35 @@ int int2char(char c)
 string add(string chiffre1, string chiffre2)
 {
    string resultat;
-/*
-   string ajout_zero = "0";
-   string chiffre_long;
-
-   int longueur_chiffre1 = chiffre1.length();
-   int longueur_chiffre2 = chiffre2.length();
-   int lg_chiffre_long;
-
-   if (longueur_chiffre1 > longueur_chiffre2) {
-      lg_chiffre_long = longueur_chiffre1;
-      chiffre1 = chiffre_long;
-   } else {
-      lg_chiffre_long = longueur_chiffre2;
-      chiffre2 = chiffre_long;
+   string temp_res;
+   int retenue = 0;
+   if (chiffre2.length() > chiffre1.length())
+   {
+      string temp = chiffre1;
+      chiffre1 = chiffre2;
+      chiffre2 = temp;
    }
-
-   int lg_max = lg_chiffre_long;
-
-   if (longueur_chiffre1 != longueur_chiffre2) {
-      for (int indice = 0; indice < lg_max; indice++) {
-         ajout_zero[indice] = chiffre_long[indice];
+   int dif = chiffre1.length() - chiffre2.length();
+   for (int i = chiffre1.length() - 1; i >= 0; i--) 
+   {
+      int res = (char2int(chiffre1[i]) + retenue) + ((i - dif >= chiffre2.length()) ? 0 : char2int(chiffre2[i-dif]));
+      retenue = res / 10;
+      temp_res += int2char(res%10);
+   }
+   if (retenue > 0)
+   {
+      temp_res += int2char(retenue);
+   }
+      bool zero = true;
+   for (int i = temp_res.length()-1; i >= 0; i--) 
+   {
+      if (!(zero && temp_res[i] == '0'))
+      {
+         resultat += temp_res[i];
+         zero = false;
       }
    }
-
-   cout << ajout_zero << endl;
-
-   int j1 = lg_max;
-   int j2 = lg_max;
-
-   char char_chiffre1;
-   char char_chiffre2;
-   char char_chiffre12;
-
-   int int_chiffre1;
-   int int_chiffre2;
-   int int_chiffre12;
-
-   const int RETENUE = 1;
-
-   bool retenue = false;
-
-   for (j1 = lg_max; j1 > 0; j1-- && j2--) {
-      //affectation a char_chiffre1 et 2 la longueur de la chaine de chiffre1 et 2
-      char_chiffre1 = chiffre1[j1 - 1];
-
-      if (retenue == false) {
-         int_chiffre1 = char2int(char_chiffre1);
-      } else {
-         int_chiffre1 = int_chiffre12;
-         retenue = false;
-      }
-
-      char_chiffre2 = chiffre2[j2 - 1];
-      int_chiffre2 = char2int(char_chiffre2);
-
-      char_chiffre2 = chiffre2[j2 - 1];
-      int_chiffre2 = char2int(char_chiffre2);
-
-      char_chiffre12 = chiffre1[j1 - 2];
-      int_chiffre12;
-      int_chiffre12 = char2int(char_chiffre12);
-
-      // addition du dernier chiffre des 2 chaines
-      int resultat_inter = int_chiffre1 + int_chiffre2;
-
-      if (resultat_inter > 9) {
-         int_chiffre12 += RETENUE;
-         int_chiffre1 = int_chiffre12;
-         resultat_inter %= 10;
-         retenue = true;
-      }
-
-      // affichage du resultat
-      cout << resultat_inter;
-      resultat += int2char(resultat_inter);
-
-      resultat_inter = 0;
-
-   }
-*/
-   return resultat;
+   return resultat == "" ? "0" : resultat;
 }
 
 /**
@@ -298,7 +246,6 @@ string subtract(string operande1, string operande2)
 
 /**
  Fonction principale
-
  @return Mise en oeuvre d'opérations arithmétiques simples
  (+,-,*) sur des entiers positifs longs représentés
  sous forme de chaines de caractères en notation
