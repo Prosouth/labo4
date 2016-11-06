@@ -60,7 +60,7 @@ string add(string chiffre1, string chiffre2)
    {
       temp_res += int2char(retenue);
    }
-      bool zero = true;
+   bool zero = true;
    for (int i = temp_res.length()-1; i >= 0; i--) 
    {
       if (!(zero && temp_res[i] == '0'))
@@ -81,62 +81,48 @@ string add(string chiffre1, string chiffre2)
  @return produit des 2 entiers représenté en notation décimale
  */
 string multiply(string chiffre1, string chiffre2)
-
 {
-   string resultat;
+   string resultat = "0";
    
-   int longueur_chiffre1 = chiffre1.length();
-   int longueur_chiffre2 = chiffre2.length();
-
-   char char_chiffre1;
-   char char_chiffre2;
-   char char_chiffre12;
-
-   int int_chiffre1;
-   int int_chiffre2;
-   int int_chiffre12;
-   int resultat_inter;
-
-   int j1 = longueur_chiffre1;
-   int j2 = longueur_chiffre2;
-
-   bool retenue = false;
-
-   const int RETENUE = 1;
-
-  /* for (int j2 = longueur_chiffre2;)
+   if (chiffre2.length() > chiffre1.length())
    {
-
-      for (j1 = longueur_chiffre1; j1 > 0; j1--) {
-         if (retenue == false) {
-            int_chiffre1 = char2int(char_chiffre1);
-         } else {
-            int_chiffre1 = int_chiffre12;
-            retenue = false;
-         }
-
-         char_chiffre1 = chiffre1[j1 - 1];
-         int_chiffre1 = char2int(char_chiffre1);
-
-         char_chiffre2 = chiffre2[j2 - 1];
-         int_chiffre2 = char2int(char_chiffre1);
-
-         char_chiffre12 = chiffre1[j1 - 2];
-         int_chiffre12;
-         int_chiffre12 = char2int(char_chiffre12);
-
-         resultat_inter = int_chiffre1 * int_chiffre2;
-
-
-         if (resultat_inter > 9) {
-            int_chiffre12 += RETENUE;
-            int_chiffre1 = int_chiffre12;
-            resultat_inter %= 10;
-            retenue = true;
-         }
-
+      string temp = chiffre1;
+      chiffre1 = chiffre2;
+      chiffre2 = temp;
+   }
+   string res2 = "0";
+   for (int i = chiffre2.length() - 1; i >= 0; i--) 
+   {
+      int chiffre_2 = char2int(chiffre2[i]);
+      int res_inter;
+      int retenue = 0;
+      string temp_res;
+      for (int j = chiffre1.length() - 1; j >= 0; j--)
+      {
+         int chiffre_1 = char2int(chiffre1[j]);
+         int res = (retenue + chiffre_1) * chiffre_2;
+         retenue = res / 10;
+         temp_res += int2char(res%10);
       }
-*/
+      string inter = "";
+      inter += temp_res;
+      if (retenue > 0) {
+         inter += int2char(retenue);
+      }
+      for (int k = chiffre2.length() - 1; k > i; k--) 
+      {
+         inter += '0';
+      }
+      string interfinal;
+      for (int m = inter.length() - 1; m >= 0; m--)
+      {
+         interfinal += inter[m];
+      }
+      res2 = add(res2, interfinal);
+   }
+   resultat = add(resultat, res2);
+   
+
    return resultat;
 }
 
