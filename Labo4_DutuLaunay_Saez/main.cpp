@@ -19,17 +19,37 @@
 #include <string>
 using namespace std;
 
-
+/**
+ Conversion char en entier
+ 
+ @param caractère 
+ 
+ @return caractère converti en entier
+ */
 int char2int(char c)
 {
    return c - '0';
 }
 
+/**
+ Conversion entier en caractère 
+ 
+ @param entier >= 0 
+ 
+ @return entier converti en caractère
+ */
 int int2char(char c)
 {
    return c + '0';
 }
 
+/**
+ Conversion entier en string 
+ 
+ @param entier >= 0 
+ 
+ @return entier converti en string
+ */
 string int2string(int nombre)
 {
    // Déterminer la longueur de l'entier
@@ -64,16 +84,18 @@ string int2string(int nombre)
  */
 string add(string chiffre1, string chiffre2)
 {
-   string resultat;
-   string temp_res;
-   int retenue = 0;
+   string resultat, // afin de stocker le resultat final et le renvoyer
+          temp_res; // valeur utilisée pour 
+   int retenue = 0; // on initialise la retenue à 0 pour la première addition
+   
+   // si le chiffre 2 est plus grand que le chiffre 1, on l'inverse
    if (chiffre2.length() > chiffre1.length())
    {
       string temp = chiffre1;
       chiffre1 = chiffre2;
       chiffre2 = temp;
    }
-   int dif = chiffre1.length() - chiffre2.length();
+   int dif = chiffre1.length() - chiffre2.length(); // on stocke la différence afin de l'utiliser comme index
    for (int i = chiffre1.length() - 1; i >= 0; i--) 
    {
       int res = (char2int(chiffre1[i]) + retenue) + 
@@ -81,11 +103,13 @@ string add(string chiffre1, string chiffre2)
       retenue = res / 10;
       temp_res += int2char(res % 10);
    }
+   
+   // si la retenue est supérieure à 0, on la stocke dans le résultat temporaire
    if (retenue > 0)
    {
       temp_res += int2char(retenue);
    }
-   bool zero = true;
+   bool zero = true; // 
    for (int i = temp_res.length()-1; i >= 0; i--) 
    {
       if (!(zero && temp_res[i] == '0'))
@@ -94,6 +118,7 @@ string add(string chiffre1, string chiffre2)
          zero = false;
       }
    }
+   // on retourne 0 si la chaîne est vide, autrement on retourne le résultat
    return resultat == "" ? "0" : resultat;
 }
 
@@ -124,6 +149,7 @@ string multiply(string chiffre1, string chiffre2)
       int chiffre_2 = char2int(chiffre2[i]);
       string temp_res;
       
+      // boucle qui itère pour calculer la valeur du résultat intermédiaire
       for (int j = chiffre1.length() - 1; j >= 0; j--)
       {
          int chiffre_1 = char2int(chiffre1[j]);
@@ -132,25 +158,28 @@ string multiply(string chiffre1, string chiffre2)
          temp_res += int2char(res % 10);
       }
       
-      string inter = "";
-      inter += temp_res;
+      string resultat_intermediaire = "";
+      resultat_intermediaire += temp_res;
+      
+      // si la retenue est à 0, on l'intégre dans le résultat intermédiaire
       if (retenue > 0) 
       {
-         inter += int2char(retenue);
+         resultat_intermediaire += int2char(retenue);
       }
 
-      string interfinal;
-      for (int m = inter.length() - 1; m >= 0; m--)
+      string inversion_finale; // va contenir le resultat inversé des opérandes
+      // boucle  qui va 
+      for (int m = resultat_intermediaire.length() - 1; m >= 0; m--)
       {
-         interfinal += inter[m];
+         inversion_finale += resultat_intermediaire[m];
       }
       for (int k = chiffre2.length() - 1; k > i; k--) 
       {
-         interfinal += '0';
+         inversion_finale += '0';
       }
       
-      retenue = 0;
-      resultat_operande2 = add(resultat_operande2, interfinal);
+      retenue = 0; // on remet la retenue à 0
+      resultat_operande2 = add(resultat_operande2, inversion_finale);
    }
    resultat = add(resultat, resultat_operande2);
    
@@ -170,8 +199,8 @@ string subtract(string operande1, string operande2)
 {
    string resultat = "";
 
-   long long car1;
-   long long car2;
+   int car1;
+   int car2;
    bool operandes_inversees = false;
    int longeur_op1 = operande1.length();
    int longeur_op2 = operande2.length();
@@ -183,17 +212,19 @@ string subtract(string operande1, string operande2)
    {
       operandes_inversees = true;
    } 
-   else if (longeur_op1 == longeur_op2)
-   {
-      int i = 0;
+   else if (longeur_op1 == longeur_op2) // si les deux opérandes sont égales,
+   {                                   
+      int i = 0;                        
       do 
       {
+         // on compare caractère par caractère pour déterminer si on doit inverser
          operandes_inversees = char2int(operande2[i]) > char2int(operande1[i]);
          i++;
       } 
       while (i < operande1.length() && (operande1[i - 1] == operande2[i - 1]));
+      // tant qu'on a pas atteint la fin de chaine ET opérande 1 similaire à opérande 2
    }
-   
+   // si le boolean est vrai, on inverse les opérandes
    if(operandes_inversees)
    {
       string temp = operande1;
@@ -201,18 +232,21 @@ string subtract(string operande1, string operande2)
       operande2 = temp;
    }
    
+   // on détermine la différence de longueur
    diff_longeur = operande1.length() - operande2.length();
-   bool retenue = false;
+   
+   bool retenue = false; // pas de retenue avant de rentrer dans la boucle
    for (int i = operande2.length() - 1; i >= 0; i--) 
    {
-      bool retenue_prec = retenue;
+      bool retenue_prec = retenue; // on affecte la retenue actuelle à la précédente
       car1 = char2int(operande1[i + diff_longeur]);
       car2 = char2int(operande2[i]);
-      car1 -= retenue_prec ? 1 : 0; 
-      retenue = car1 < car2;
-      car1 += retenue ? 10 : 0;
+      car1 -= retenue_prec ? 1 : 0; // on soustrait la retenue_prec s'il y en avait une
+      retenue = car1 < car2; // on détermine s'il y'a une retenue
+      car1 += retenue ? 10 : 0; 
       resultat += int2char(car1 - car2);  
    }
+   
    int indice_reste = diff_longeur - 1;
    while (retenue || indice_reste >= 0) 
    {
@@ -223,21 +257,21 @@ string subtract(string operande1, string operande2)
    }
    int longeur_resultat = resultat.length();
    bool zero = true;
-   string res_final;
+   string resultat_final;
    if (operandes_inversees)
    {
-      res_final += '-';
+      resultat_final += '-';
    }
    for (int i = longeur_resultat-1; i >= 0; i--) 
    {
       if (!(zero && resultat[i] == '0'))
       {
-         res_final += resultat[i]; 
+         resultat_final += resultat[i]; 
          zero = false;
       }
    }
-   longeur_resultat = res_final.length();
-   return res_final == "" ? "0" : res_final;
+   longeur_resultat = resultat_final.length();
+   return resultat_final == "" ? "0" : resultat_final;
 }
 
 /**
@@ -249,7 +283,9 @@ string subtract(string operande1, string operande2)
  */
 string factorial(int n)
 {
-   return (n == 1) ? "1" : multiply(int2string(n), factorial(n - 1));
+   // Si n vaut 1, on retourne 1 autrement on fait la formule de factorielle
+   // n * (n-1)!
+   return (n == 0) ? "1" : multiply(int2string(n), factorial(n - 1));
 }
 
 /*
@@ -261,7 +297,6 @@ string factorial(int n)
  */
 int main()
 {
-
    cout << "Entrez deux entiers >= 0 \n";
    string entier1, entier2;
    cin >> entier1 >> entier2;
