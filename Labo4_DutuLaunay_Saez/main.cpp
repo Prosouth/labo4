@@ -19,11 +19,24 @@
 #include <string>
 using namespace std;
 
+
+int char2int(char c)
+{
+   return c - '0';
+}
+
+int int2char(char c)
+{
+   return c + '0';
+}
+
 string int2string(int nombre)
 {
    // Déterminer la longueur de l'entier
     if (nombre == 0)
-        cout << "0" << endl;
+    {
+       return "0";
+    }
         
     string temp = "";
     string int_converti = "";
@@ -38,23 +51,14 @@ string int2string(int nombre)
     for (int i = 0; i < temp.length(); i++) {
         int_converti += temp[temp.length()-i-1];
     }
-}
-
-int char2int(char c)
-{
-   return c - '0';
-}
-
-int int2char(char c)
-{
-   return c + '0';
+    return int_converti;
 }
 
 /**
  Addition
  
- @param lhs entier >=0 représenté en notation décimale
- @param rhs entier >=0 représenté en notation décimale
+ @param chiffre1 entier >=0 représenté en notation décimale
+ @param chiffre2 entier >=0 représenté en notation décimale
  
  @return somme des 2 entiers représentée en notation décimale
  */
@@ -75,7 +79,7 @@ string add(string chiffre1, string chiffre2)
       int res = (char2int(chiffre1[i]) + retenue) + 
       ((i - dif >= chiffre2.length()) ? 0 : char2int(chiffre2[i-dif]));
       retenue = res / 10;
-      temp_res += int2char(res%10);
+      temp_res += int2char(res % 10);
    }
    if (retenue > 0)
    {
@@ -96,8 +100,8 @@ string add(string chiffre1, string chiffre2)
 /**
  Multiplication
  
- @param lhs entier >=0 représenté en notation décimale
- @param rhs entier >=0 représenté en notation décimale
+ @param chiffre1 entier >=0 représenté en notation décimale
+ @param chiffre2 entier >=0 représenté en notation décimale
  
  @return produit des 2 entiers représenté en notation décimale
  */
@@ -134,9 +138,7 @@ string multiply(string chiffre1, string chiffre2)
       {
          inter += int2char(retenue);
       }
-      
 
-      
       string interfinal;
       for (int m = inter.length() - 1; m >= 0; m--)
       {
@@ -155,41 +157,6 @@ string multiply(string chiffre1, string chiffre2)
    return resultat;
 }
 
-/**
- Factorielle
- 
- @param n entier >=0 
- 
- @return n!, la factorielle de n représentée en notation décimale
- */
-string factorial(int n)
-{
-   string resultat;
-   string oklm = "";
-   int nombre = n;
-   if(nombre > 9)
-   {
-      // parser++ 
-   }
-   else
-   {
-      oklm += int2char(nombre);
-   }
-   
-   
-
-   for(int i = nombre; i > 0; i--)
-   {
-      oklm += multiply(oklm, oklm[0] - 1);
-      
-   }
-   
-
-
-   // à remplacer par une boucle qui met chaque caractère dans une string (relou)
-
-   return resultat;
-}
 
 /**
  Soustraction
@@ -274,7 +241,19 @@ string subtract(string operande1, string operande2)
 }
 
 /**
-12 Fonction principale
+ Factorielle
+ 
+ @param n entier >=0 
+ 
+ @return n!, la factorielle de n représentée en notation décimale
+ */
+string factorial(int n)
+{
+   return (n == 1) ? "1" : multiply(int2string(n), factorial(n - 1));
+}
+
+/*
+ Fonction principale
  @return Mise en oeuvre d'opérations arithmétiques simples
  (+,-,*) sur des entiers positifs longs représentés
  sous forme de chaines de caractères en notation
