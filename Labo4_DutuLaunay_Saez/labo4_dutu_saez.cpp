@@ -19,6 +19,11 @@
 #include <string>
 using namespace std;
 
+// Constantes   
+const int BASE10 = 10;
+
+
+
 /**
  Conversion char en entier
  
@@ -52,7 +57,6 @@ int int2char(char c)
  */
 string int2string(int nombre)
 {
-   const int BASE10 = 10;
    // Déterminer la longueur de l'entier
     if (nombre == 0)
     {
@@ -85,7 +89,6 @@ string int2string(int nombre)
  */
 string add(string chiffre1, string chiffre2)
 {
-   const int MODULO_10 = 10; // pour déterminer le reste 
    int retenue = 0; // on initialise la retenue à 0 pour la première addition
    string resultat, // afin de stocker le resultat final et le renvoyer
           temp_res; // valeur utilisée pour 
@@ -102,8 +105,8 @@ string add(string chiffre1, string chiffre2)
    {
       int res = (char2int(chiffre1[i]) + retenue) + 
       ((i - difference >= chiffre2.length()) ? 0 : char2int(chiffre2[i-difference]));
-      retenue = res / 10;
-      temp_res += int2char(res % MODULO_10);
+      retenue = res / BASE10;
+      temp_res += int2char(res % BASE10);
    }
    
    // si la retenue est supérieure à 0, on la stocke dans le résultat temporaire
@@ -156,8 +159,8 @@ string multiply(string chiffre1, string chiffre2)
       {
          int chiffre_1 = char2int(chiffre1[j]);
          int res = retenue + (chiffre_1 * chiffre_2);
-         retenue = res / 10;
-         temp_res += int2char(res % 10);
+         retenue = res / BASE10;
+         temp_res += int2char(res % BASE10);
       }
       
       string resultat_intermediaire = "";
@@ -246,7 +249,7 @@ string subtract(string operande1, string operande2)
       car2 = char2int(operande2[i]);
       car1 -= retenue_prec ? 1 : 0; // on soustrait la retenue_prec s'il y en avait une
       retenue = car1 < car2; // on détermine s'il y'a une retenue
-      car1 += retenue ? 10 : 0; 
+      car1 += retenue ? BASE10 : 0; 
       resultat += int2char(car1 - car2);  
    }
    
@@ -255,7 +258,7 @@ string subtract(string operande1, string operande2)
    {
       int car_reste = char2int(operande1[indice_reste--]) - (retenue ? 1 : 0);
       retenue = car_reste < 0; 
-      car_reste += retenue ? 10 : 0; 
+      car_reste += retenue ? BASE10 : 0; 
       resultat += int2char(car_reste);  
    }
    int longeur_resultat = resultat.length();
